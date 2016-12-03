@@ -5,7 +5,7 @@ defmodule AoC3 do
     |> Stream.flat_map(&String.split/1)
     |> Stream.map(&String.to_integer/1)
     |> Stream.chunk(3)
-    |> Enum.reduce(0, fn([x,y,z], acc) -> acc + if ((x + y) > z) and ((x + z) > y) and ((y + z) > x), do: 1, else: 0 end)
+    |> Enum.count(fn [x,y,z] -> ((x + y) > z) and ((x + z) > y) and ((y + z) > x) end)
   end
 
   def run2 do
