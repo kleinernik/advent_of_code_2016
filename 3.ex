@@ -1,0 +1,45 @@
+defmodule AoC3 do
+
+  def run1 do
+    File.stream!("input3.txt")
+    |> Stream.flat_map(&String.split/1)
+    |> Stream.map(&String.to_integer/1)
+    |> Stream.chunk(3)
+    |> Enum.reduce(0, fn([x,y,z], acc) -> acc + if ((x + y) > z) and ((x + z) > y) and ((y + z) > x), do: 1, else: 0 end)
+  end
+
+  def run2 do
+    File.stream!("input3.txt")
+    |> Stream.flat_map(&String.split/1)
+    |> Stream.map(&String.to_integer/1)
+    |> Stream.chunk(3)
+    |> Stream.chunk(3)
+    |> Stream.flat_map(&List.zip/1)
+    |> Enum.reduce(0, fn({x,y,z}, acc) -> acc + if ((x + y) > z) and ((x + z) > y) and ((y + z) > x), do: 1, else: 0 end)
+  end
+
+  def run3 do
+    File.stream!("input3.txt")
+    |> Stream.flat_map(&String.split/1)
+    |> Stream.map(&String.to_integer/1)
+    |> Stream.chunk(3)
+    |> Stream.chunk(3)
+    |> Stream.flat_map(&List.zip/1)
+    |> Stream.map(&Tuple.to_list/1)
+    |> Stream.map(&Enum.sort/1)
+    |> Enum.reduce(0, fn([x,y,z], acc) -> acc + if x + y > z, do: 1, else: 0 end)
+  end
+
+  def run4 do
+    triangle = fn x,y,z ->
+      if ((x + y) > z) and ((x + z) > y) and ((y + z) > x), do: 1, else: 0
+    end
+    File.stream!("input3.txt")
+    |> Stream.flat_map(&String.split/1)
+    |> Stream.map(&String.to_integer/1)
+    |> Stream.chunk(3)
+    |> Stream.chunk(3)
+    |> Stream.flat_map(&apply(:lists, :zipwith3, [triangle|&1]))
+    |> Enum.sum
+  end
+end
