@@ -1,0 +1,6 @@
+Stream.iterate(0, &(&1+1))
+|>Stream.map(&"ojvtpuvg#{&1}")
+|>Stream.map(fn x -> x = :erlang.md5(x); Base.encode16(x) end)
+|>Stream.filter(&String.starts_with?(&1, "00000"))
+|>Stream.map(&String.at(&1,5))
+|>Enum.take(8)
