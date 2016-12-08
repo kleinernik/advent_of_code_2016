@@ -85,7 +85,7 @@ defmodule AoC8 do
   end
 
   def run1 do
-    init_matrix = create_matrix(50,6)
+    init_matrix = create_matrix(50,6, " ")
     matrix = File.stream!("input8.txt")
     |> Stream.map(&parse_command/1)
     |> Enum.reduce(init_matrix, fn (fun, acc) -> fun.(acc) end)
